@@ -1,5 +1,7 @@
 ﻿using System;
 
+using System.Diagnostics;
+using RxTests;
 using Xamarin.Forms;
 
 namespace RxTests
@@ -8,37 +10,93 @@ namespace RxTests
 	{
 		public App ()
 		{
-			// The root page of your application
 			MainPage = new ContentPage {
 				Content = new StackLayout {
 					VerticalOptions = LayoutOptions.Center,
 					Children = {
 						new Label {
-							XAlign = TextAlignment.Center,
-							Text = "Welcome to Xamarin Forms!"
+							HorizontalTextAlignment = TextAlignment.Center,
+							Text = "Reactive Tests"
+						},
+						new Button {
+							Text = "test",
 						}
 					}
 				}
 			};
 
-			ICancellableAlert alert;
+		}
 
+
+		protected virtual ICancellableAlert GetNewAlert ()
+		{
+			return new DebugCancellableAlert ();
 		}
 
 		protected override void OnStart ()
 		{
-			// Handle when your app starts
+			MainPage.BindingContext = new HomeViewModel (GetNewAlert);
 		}
 
 		protected override void OnSleep ()
 		{
-			// Handle when your app sleeps
 		}
 
 		protected override void OnResume ()
 		{
-			// Handle when your app resumes
 		}
+	}
+
+	class DebugCancellableAlert : ICancellableAlert
+	{
+		#region ICancellableAlert implementation
+
+		public event EventHandler OnOK;
+		public event EventHandler OnCancel;
+
+		public ICancellableAlert Open ()
+		{
+			Debug.WriteLine ("alert open");
+			return this;
+		}
+		public ICancellableAlert Close ()
+		{
+			Debug.WriteLine ("alert close");
+			return this;
+		}
+		public ICancellableAlert SetMessage (string txt)
+		{
+			Debug.WriteLine ("alert set message to {0}", txt);
+			return this;
+		}
+		public ICancellableAlert SetTitle (string txt)
+		{
+			Debug.WriteLine ("alert set title to {0}", txt);
+			return this;
+		}
+		public ICancellableAlert SetCancelTitle (string title = "Cancel")
+		{
+			Debug.WriteLine ("alert set cancel button title to {0}", title);
+			return this;
+		}
+		public ICancellableAlert SetOKTitle (string title = "OK")
+		{
+			Debug.WriteLine ("alert set ok button title to {0}", title);
+			return this;
+		}
+
+		public ICancellableAlert SetTimeRemaining (int millisec)
+		{
+			Debug.WriteLine ("alert set time to {0}", millisec);
+			return this;
+		}
+
+		public void Dispose ()
+		{
+		}
+
+		#endregion
+		
 	}
 }
 

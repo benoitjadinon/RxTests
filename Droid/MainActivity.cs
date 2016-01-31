@@ -7,6 +7,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Xamarin.Forms;
 
 namespace RxTests.Droid
 {
@@ -19,7 +20,15 @@ namespace RxTests.Droid
 
 			global::Xamarin.Forms.Forms.Init (this, bundle);
 
-			LoadApplication (new App ());
+			LoadApplication (new AndroidApp ());
+		}
+	}
+
+	class AndroidApp : App
+	{
+		protected override ICancellableAlert GetNewAlert ()
+		{
+			return new CancellableAlert (Forms.Context);
 		}
 	}
 }

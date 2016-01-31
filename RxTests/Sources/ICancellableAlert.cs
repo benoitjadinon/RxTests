@@ -3,13 +3,18 @@ using System.Threading;
 
 namespace RxTests
 {
-	public interface ICancellableAlert
+	public interface ICancellableAlert : IDisposable
 	{
-		void Open();
-		void Close();
-		string Message { get; set; }
-		string Title { get; set; }
-		void SetButton(string title = "OK", int atPosition = 0, Action onClick = null);
+		ICancellableAlert Open();
+		ICancellableAlert Close();
+		ICancellableAlert SetMessage (string txt);
+		ICancellableAlert SetTitle (string txt);
+		ICancellableAlert SetCancelTitle (string title = "Cancel");
+		ICancellableAlert SetOKTitle (string title = "OK");
+		ICancellableAlert SetTimeRemaining (int millisec);
+
+		event EventHandler OnOK;
+		event EventHandler OnCancel;
 	}
 }
 

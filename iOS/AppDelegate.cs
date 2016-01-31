@@ -4,6 +4,8 @@ using System.Linq;
 
 using Foundation;
 using UIKit;
+using RxTests;
+using BlueMarin;
 
 namespace RxTests.iOS
 {
@@ -19,10 +21,19 @@ namespace RxTests.iOS
 			Xamarin.Calabash.Start();
 			#endif
 
-			LoadApplication (new App ());
+			LoadApplication (new IOSApp ());
 
 			return base.FinishedLaunching (app, options);
 		}
 	}
+
+	class IOSApp : App
+	{
+		protected override ICancellableAlert GetNewAlert(){
+			//return new CancellableUIAlertView ();
+			return new CancellableUIAlertController ();
+		}
+	}
+
 }
 

@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0CBC0C76-4DA0-43CD-9D43-C4CBF596297B}</ProjectGuid>
+    <ProjectGuid>{1E25E9C9-7462-47FC-B23F-99C43A276118}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>RxTests.UITests</RootNamespace>
-    <AssemblyName>RxTests.UITests</AssemblyName>
+    <RootNamespace>RxTests.Tests</RootNamespace>
+    <AssemblyName>RxTests.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -32,22 +32,15 @@
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.3.0.1\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.UITest">
-      <HintPath>..\packages\Xamarin.UITest.1.2.0\lib\Xamarin.UITest.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\iOS\RxTests.iOS.csproj">
-      <Project>{F6989117-C813-4621-9E2A-A1A60FD75D34}</Project>
-      <Name>RxTests.iOS</Name>
-      <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Droid\RxTests.Droid.csproj">
-      <Project>{5A920745-F9FC-4C47-B17E-EA22A0573DF4}</Project>
-      <Name>RxTests.Droid</Name>
-      <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-      <Private>False</Private>
+    <Compile Include="Test.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\RxTests\RxTests.csproj">
+      <Project>{73BC5B26-11DA-41C0-9F89-9E963582BD6A}</Project>
+      <Name>RxTests</Name>
     </ProjectReference>
     <ProjectReference Include="..\BlueMarin\BlueMarin.Rx\BlueMarin.Rx.csproj">
       <Project>{DE0E2591-F3C1-4E07-AE20-BD6713C4F1C5}</Project>
@@ -57,16 +50,7 @@
       <Project>{B7A248AF-C787-4F9D-BFAD-DF96C64F4E50}</Project>
       <Name>BlueMarin.PCL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RxTests\RxTests.csproj">
-      <Project>{73BC5B26-11DA-41C0-9F89-9E963582BD6A}</Project>
-      <Name>RxTests</Name>
-    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Tests.cs" />
-    <Compile Include="AppInitializer.cs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
