@@ -25,24 +25,20 @@ namespace RxTests
 			var onCancelPressed = Observable.FromEventPattern<EventHandler, EventArgs> (h => alert.OnCancel += h, h => alert.OnCancel -= h);
 			onCancelPressed.Subscribe (_ => Cancel ());
 
-			var oneSec = TimeSpan.FromMilliseconds (TimerIntervalMillisec);
-			Observable.Generate (
-				initialState: TimerStartTime,
-				condition: i => i >= 0,
-				iterate: i => i - 1,
-				resultSelector: i => i,
-				timeSelector: i => oneSec
-			)
+			Observable
+				.Interval (TimeSpan.FromMilliseconds (TimerIntervalMillisec))
+				.Take (TimerStartTime + 1) // +1 to show 0 for a second
+				.Select(p => TimerStartTime-p) // inverse countdown
 				.TakeUntil (onOKPressed)
 				.TakeUntil (onCancelPressed)
 				.ObserveOn (SynchronizationContext.Current)
 				.Subscribe (
-				onNext: seconds => alert.SetTimeRemaining (millisec: seconds * TimerIntervalMillisec),
-				onCompleted: () => {
-					alert.Close ();
-					Go ();
-				}
-			);
+					onNext: seconds => alert.SetTimeRemaining (millisec: seconds * TimerIntervalMillisec),
+					onCompleted: () => {
+						alert.Close ();
+						Go ();
+					}
+				);
 		}
 
 		void Cancel ()

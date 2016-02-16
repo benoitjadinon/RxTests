@@ -11,7 +11,7 @@ namespace RxTests
 		ICancellableAlert SetTitle (string txt);
 		ICancellableAlert SetCancelTitle (string title = "Cancel");
 		ICancellableAlert SetOKTitle (string title = "OK");
-		ICancellableAlert SetTimeRemaining (int millisec);
+		ICancellableAlert SetTimeRemaining (long millisec);
 
 		event EventHandler OnOK;
 		event EventHandler OnCancel;

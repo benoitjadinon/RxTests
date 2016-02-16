@@ -77,7 +77,7 @@ namespace RxTests.iOS
 			return this;
 		}
 
-		public ICancellableAlert SetTimeRemaining (int millisec)
+		public ICancellableAlert SetTimeRemaining (long millisec)
 		{
 			SetOKTitle (string.Format ("OK ({0})", Math.Round (millisec / 1000d)));
 			return this;

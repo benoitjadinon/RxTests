@@ -85,7 +85,7 @@ namespace RxTests
 			return this;
 		}
 
-		public ICancellableAlert SetTimeRemaining (int millisec)
+		public ICancellableAlert SetTimeRemaining (long millisec)
 		{
 			Debug.WriteLine ("alert set time to {0}", millisec);
 			return this;
