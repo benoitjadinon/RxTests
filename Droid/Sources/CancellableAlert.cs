@@ -72,9 +72,9 @@ namespace RxTests.Droid
 			return this;
 		}
 
-		public ICancellableAlert SetTimeRemaining (long millisec)
+		public ICancellableAlert SetTimeRemaining (string time)
 		{
-			SetOKTitle (string.Format ("OK ({0})", Math.Round (millisec / 1000d)));
+			SetOKTitle (string.Format ("OK ({0})", time));
 			return this;
 		}
 

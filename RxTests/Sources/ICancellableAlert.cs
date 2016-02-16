@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Runtime.CompilerServices;
 
 namespace RxTests
 {
@@ -11,7 +12,7 @@ namespace RxTests
 		ICancellableAlert SetTitle (string txt);
 		ICancellableAlert SetCancelTitle (string title = "Cancel");
 		ICancellableAlert SetOKTitle (string title = "OK");
-		ICancellableAlert SetTimeRemaining (long millisec);
+		ICancellableAlert DisplayTimeRemaining (string time);
 
 		event EventHandler OnOK;
 		event EventHandler OnCancel;
