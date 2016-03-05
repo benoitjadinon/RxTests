@@ -42,7 +42,6 @@
   <ItemGroup>
     <Folder Include="Sources\" />
     <Folder Include="Sources\ViewModels\" />
-    <Folder Include="Sources\Services\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.UITest">

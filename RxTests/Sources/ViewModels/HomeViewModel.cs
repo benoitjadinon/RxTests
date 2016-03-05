@@ -13,6 +13,7 @@ namespace RxTests
 
 		public HomeViewModel (Func<ICancellableAlert> alertFactory)
 		{
+			/*
 			var alert = alertFactory?.Invoke ();
 
 			alert
@@ -23,15 +24,14 @@ namespace RxTests
 			var onOKPressed = Observable.FromEventPattern<EventHandler, EventArgs> (h => alert.OnOK += h, h => alert.OnOK -= h);
 			var onCancelPressed = Observable.FromEventPattern<EventHandler, EventArgs> (h => alert.OnCancel += h, h => alert.OnCancel -= h);
 
-			var loop = Observable.Merge (
-					Observable.Return (Convert.ToInt64 (TimerStartTime)), // cold obs to show the first '10' while waiting for 1st interval iteration
-					Observable.Interval (TimeSpan.FromMilliseconds (TimerIntervalMillisec)) // the actual timer
-						.Take (TimerStartTime + 1)            // +1 to show '0' for a second
+			var loop = Observable.Interval (TimeSpan.FromMilliseconds (TimerIntervalMillisec)) // the actual timer
+						.Take (TimerStartTime + 1)             // +1 to show '0' for a second
 						.Select (p => TimerStartTime - p - 1)  // inverse countdown
-			    )
+				.StartWith (Convert.ToInt64 (TimerStartTime))  // starts at 10, otherwise have to wait 1 sec before display
 				.TakeUntil (onOKPressed)
 				.TakeUntil (onCancelPressed)
-				.ObserveOn (SynchronizationContext.Current)
+				//.SubscribeOn (RxApp.TaskpoolScheduler)
+				//.ObserveOn (RxApp.MainThreadScheduler)
 				.Subscribe (
 				    onNext: seconds => {
 						if (seconds >= 0)
@@ -42,7 +42,7 @@ namespace RxTests
 						Go ();
 					}
 				);
-			
+
 			onOKPressed.Subscribe (_ => {
 				loop.Dispose ();
 				Go ();
@@ -52,6 +52,12 @@ namespace RxTests
 				loop.Dispose ();
 				Cancel ();
 			});
+			*/
+
+
+			Observable.Interval (TimeSpan.FromSeconds (1))
+				.Select(seconds => $"{seconds.ToString ()} seconds since subscribed")
+				.Subscribe (Debug.WriteLine);
 		}
 
 		void Cancel ()

@@ -3,6 +3,8 @@
 using System.Diagnostics;
 using RxTests;
 using Xamarin.Forms;
+using ReactiveUI;
+using ReactiveUI.XamForms;
 
 namespace RxTests
 {
@@ -10,6 +12,8 @@ namespace RxTests
 	{
 		public App ()
 		{
+			Button butt;
+
 			MainPage = new ContentPage {
 				Content = new StackLayout {
 					VerticalOptions = LayoutOptions.Center,
@@ -18,13 +22,12 @@ namespace RxTests
 							HorizontalTextAlignment = TextAlignment.Center,
 							Text = "Reactive Tests"
 						},
-						new Button {
+						(butt = new Button {
 							Text = "test",
-						}
+						})
 					}
 				}
 			};
-
 		}
 
 
@@ -85,7 +88,7 @@ namespace RxTests
 			return this;
 		}
 
-		public ICancellableAlert SetTimeRemaining (string time)
+		public ICancellableAlert DisplayTimeRemaining (string time)
 		{
 			Debug.WriteLine ("alert set time to {0}", time);
 			return this;

@@ -77,7 +77,7 @@ namespace RxTests.iOS
 			return this;
 		}
 
-		public ICancellableAlert SetTimeRemaining (string time)
+		public ICancellableAlert DisplayTimeRemaining (string time)
 		{
 			SetOKTitle (string.Format ("OK ({0})", time));
 			return this;

@@ -78,7 +78,7 @@ namespace RxTests.iOS
 			return this;
 		}
 
-		public ICancellableAlert SetTimeRemaining (string time)
+		public ICancellableAlert DisplayTimeRemaining (string time)
 		{
 			var tit = string.Format(title + " ({0})", time);
 			alert.Title = tit;
