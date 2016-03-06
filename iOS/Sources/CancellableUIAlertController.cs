@@ -18,17 +18,12 @@ namespace RxTests.iOS
 		{
 			this.animated = animated;
 			alert = UIAlertController.Create ("", "", UIAlertControllerStyle.Alert);
-			alert.AddAction (UIAlertAction.Create ("OK", UIAlertActionStyle.Default, _ => OnOK?.Invoke(this, null)));
-			alert.AddAction (UIAlertAction.Create ("Cancel", UIAlertActionStyle.Cancel, _ => OnCancel?.Invoke(this, null)));
+			alert.AddAction (UIAlertAction.Create ("OK", UIAlertActionStyle.Default, _ => OnResult?.Invoke(this, true)));
+			alert.AddAction (UIAlertAction.Create ("Cancel", UIAlertActionStyle.Cancel, _ => OnResult?.Invoke(this, false)));
 		}
 
 
 		#region ICancellableAlert implementation
-
-		public event EventHandler OnOK;
-
-		public event EventHandler OnCancel;
-
 
 		public ICancellableAlert Open ()
 		{

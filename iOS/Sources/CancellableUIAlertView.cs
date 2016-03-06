@@ -10,7 +10,7 @@ using BlueMarin;
 namespace RxTests.iOS
 {
 
-	class CancellableUIAlertView : ICancellableAlert
+	class CancellableUIAlertView : ObservableAlert
 	{
 		readonly UIAlertView alert;
 
@@ -29,10 +29,6 @@ namespace RxTests.iOS
 		}
 
 		#region ICancellableAlert implementation
-
-		public event EventHandler OnOK;
-
-		public event EventHandler OnCancel;
 
 		public ICancellableAlert Open ()
 		{

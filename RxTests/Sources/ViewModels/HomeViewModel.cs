@@ -2,8 +2,9 @@
 using ReactiveUI;
 using System.Reactive.Linq;
 using System.Diagnostics;
-using System.Threading;
 using System.Reactive.Concurrency;
+using Trash.Service.Namur;
+using NodaTime;
 
 namespace RxTests
 {
@@ -17,60 +18,74 @@ namespace RxTests
 			if (scheduler == null)
 				scheduler = RxApp.MainThreadScheduler;
 			
-			/*
 			var alert = alertFactory?.Invoke ();
 
 			alert
-				.SetTitle ("title")
-				.SetMessage ("msg")
+				.SetTitle ("some title")
+				.SetMessage ("some message")
 				.Open ();
 
-			var onOKPressed = Observable.FromEventPattern<EventHandler, EventArgs> (h => alert.OnOK += h, h => alert.OnOK -= h);
-			var onCancelPressed = Observable.FromEventPattern<EventHandler, EventArgs> (h => alert.OnCancel += h, h => alert.OnCancel -= h);
+			var onAlertResult = alert.AsObservable ();
 
-			var loop = Observable.Interval (TimeSpan.FromMilliseconds (TimerIntervalMillisec), scheduler) // the actual timer
-						.Take (TimerStartTime + 1)             // +1 to show '0' for a second
-						.Select (p => TimerStartTime - p - 1)  // inverse countdown
-				.StartWith (Convert.ToInt64 (TimerStartTime))  // starts at 10, otherwise have to wait 1 sec before display
-				.TakeUntil (onOKPressed)
-				.TakeUntil (onCancelPressed)
-				//.SubscribeOn (RxApp.TaskpoolScheduler)
-				//.ObserveOn (RxApp.MainThreadScheduler)
-				.Subscribe (
-				    onNext: seconds => {
-						if (seconds >= 0)
-							alert.DisplayTimeRemaining (time: seconds.ToString ());
-					},
-				    onCompleted: () => {
-						alert.Close ();
-						Go ();
+			var canGoNext = onAlertResult
+				.Merge (
+					Observable.Interval (TimeSpan.FromMilliseconds (TimerIntervalMillisec), scheduler) // the actual timer
+						.Select (p => TimerStartTime - p - 1)          // inversing countdown
+						.StartWith (Convert.ToInt64 (TimerStartTime))  // starting so it displays 10, otherwise nothing for 1 sec
+						.Do (sec => alert.DisplayTimeRemaining (sec.ToString ())) // updating alert
+						.Select (sec => sec <= 0)                      // returns true only at end of countdown
+						.Where (isEnded => isEnded)                    // only forwarding if true
+						.Do (_ => alert.Close ())                      // close popup
+				)
+				.Take (1) // first onNext passes through then calls onComplete
+				;
+			canGoNext.Subscribe (
+					onNext: alertResult => {
+						if (alertResult)
+							Debug.WriteLine ("OK");
+						else
+							Debug.WriteLine ("canceled");
 					}
 				);
 
-			onOKPressed.Subscribe (_ => {
-				loop.Dispose ();
-				Go ();
-			});
-
-			onCancelPressed.Subscribe (_ => {
-				loop.Dispose ();
-				Cancel ();
-			});
-			*/
+			var trashService = new TrashCollectService ();
+			Observable.Timer (TimeSpan.FromSeconds (3))
+				.SelectMany(
+					trashService.GetMunicipalitiesObservable ()
+						.Timeout (TimeSpan.FromSeconds (5))
+						.Retry(1)
+				)
+				.SelectMany(mu => trashService.GetSubMunicipalitiesObservable(mu[0]))
+				.SelectMany(sm => trashService.GetCollectDaysObservable(sm[0], 
+					new Interval(SystemClock.Instance.Now, SystemClock.Instance.Now.Plus(Duration.FromStandardDays(4)))
+				))
+				.ObserveOn(scheduler)
+				.Subscribe (onNext: l => Debug.WriteLine ($"days {l.Count}"), onError: Debug.WriteLine)
+				;
 
 			Observable.Interval (TimeSpan.FromSeconds (1), scheduler)
+				.Delay(TimeSpan.FromSeconds(1))
+				.Select(i => i + 1)
+				.Take (12)
 				.Select(seconds => $"{seconds.ToString ()} seconds since subscribed")
 				.Subscribe (Debug.WriteLine);
-		}
 
-		void Cancel ()
-		{
-			Debug.WriteLine ("canceled");
-		}
-
-		void Go ()
-		{
-			Debug.WriteLine ("next!");
+			/*
+			var github = new GitHubApi ();
+			var subscription = github.GetUserObservable ("benoitjadinon")
+				.SubscribeOn (RxApp.TaskpoolScheduler)
+				.Timeout (TimeSpan.FromSeconds (10))          // throws TimeOutException
+				.DelaySubscription (TimeSpan.FromSeconds (3)) // though we subscribe directly, it'll wait for 3 seconds before doing the actual call
+				.Do (onNext: Debug.WriteLine)       // debugs the actual call result
+				.Delay (TimeSpan.FromSeconds (2))   // will hold the result for 2 more seconds
+				.Select (u => u.Login)              // forwards only the login, instead of the whole User object
+				.SelectMany (github.GetReposOwned)  // do an other call
+				.ObserveOn (scheduler)
+				.Subscribe (onNext: repos => Debug.WriteLine (repos[0]), onError: Debug.WriteLine);
+				;
+*/
+			//var result = await github.GetUserObservable("benoitjadinon")
+			//	.Timeout(TimeSpan.FromSeconds(10));
 		}
 	}
 }

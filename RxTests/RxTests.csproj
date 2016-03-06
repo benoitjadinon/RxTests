@@ -36,6 +36,8 @@
     <Compile Include="Sources\ViewModels\HomeViewModel.cs" />
     <Compile Include="Sources\UI\DebugCancellableAlert.cs" />
     <Compile Include="Sources\UI\ICancellableAlert.cs" />
+    <Compile Include="Sources\Services\GitHubService.cs" />
+    <Compile Include="Sources\UI\ObservableAlert.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\refit.2.4.1\build\portable-net45+netcore45+wp8+wpa81+monoandroid+xamarin.ios10\refit.targets" Condition="Exists('..\packages\refit.2.4.1\build\portable-net45+netcore45+wp8+wpa81+monoandroid+xamarin.ios10\refit.targets')" />
@@ -45,6 +47,7 @@
     <Folder Include="Sources\" />
     <Folder Include="Sources\ViewModels\" />
     <Folder Include="Sources\UI\" />
+    <Folder Include="Sources\Services\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Reactive.Interfaces">

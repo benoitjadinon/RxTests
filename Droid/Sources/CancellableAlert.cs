@@ -8,7 +8,7 @@ using Android.Hardware;
 namespace RxTests.Droid
 {
 	//TODO : <AD, ADBuilder> to support support v7 library alertdialog classes
-	public class CancellableAlert : ICancellableAlert
+	public class CancellableAlert : ObservableAlert
 	{
 		readonly Dictionary<DialogButtonType, Func<AlertDialog.Builder, string, EventHandler<DialogClickEventArgs>, AlertDialog.Builder>> funcButtonsMap;
 		
@@ -25,16 +25,15 @@ namespace RxTests.Droid
 			
 			builder = new AlertDialog.Builder (context);
 
-			ChangeButton (DialogButtonType.Negative, "Cancel", () => OnCancel);
-			ChangeButton (DialogButtonType.Positive, "OK",     () => OnOK);
+			ChangeButton (DialogButtonType.Negative, "Cancel", () => (s,e) => OnResult(s, false));
+			ChangeButton (DialogButtonType.Positive, "OK",     () => (s,e) => OnResult(s, true));
 		}
 
 		#region ICancellableAlert implementation
 
-		public event EventHandler OnOK;
-		public event EventHandler OnCancel;
+		public override event EventHandler<bool> OnResult;
 
-		public ICancellableAlert Open ()
+		public override ICancellableAlert Open ()
 		{
 			CloseDialogIfShown ();
 
@@ -43,20 +42,20 @@ namespace RxTests.Droid
 			return this;
 		}
 
-		public ICancellableAlert Close ()
+		public override ICancellableAlert Close ()
 		{
 			CloseDialogIfShown ();
 
 			return this;
 		}
 
-		public ICancellableAlert SetCancelTitle (string title = "Cancel") => 
+		public override ICancellableAlert SetCancelTitle (string title = "Cancel") => 
 			ChangeButton (DialogButtonType.Negative, title);
 
-		public ICancellableAlert SetOKTitle (string title = "OK") =>
+		public override ICancellableAlert SetOKTitle (string title = "OK") =>
 			ChangeButton (DialogButtonType.Positive, title);
 
-		public ICancellableAlert SetTitle (string txt) {
+		public override ICancellableAlert SetTitle (string txt) {
 			if (dialogShown != null)
 				dialogShown.SetTitle (txt);
 			else
@@ -64,7 +63,7 @@ namespace RxTests.Droid
 			return this;
 		}
 
-		public ICancellableAlert SetMessage (string txt) {
+		public override ICancellableAlert SetMessage (string txt) {
 			if (dialogShown != null)
 				dialogShown.SetMessage (txt);
 			else
@@ -72,15 +71,16 @@ namespace RxTests.Droid
 			return this;
 		}
 
-		public ICancellableAlert DisplayTimeRemaining (string time)
+		public override ICancellableAlert DisplayTimeRemaining (string time)
 		{
 			SetOKTitle (string.Format ("OK ({0})", time));
 			return this;
 		}
 
-		public void Dispose ()
+		public override void Dispose ()
 		{
 			CloseDialogIfShown ();
+			base.Dispose ();
 		}
 
 		#endregion
