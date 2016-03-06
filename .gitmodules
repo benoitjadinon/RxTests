@@ -1,3 +1,6 @@
 [submodule "BlueMarin"]
 	path = BlueMarin
 	url = git@github.com:benoitjadinon/BlueMarin.git
+[submodule "TrashLib"]
+	path = TrashLib
+	url = git@bitbucket.org:benoitjadinon/trashlib.net.git

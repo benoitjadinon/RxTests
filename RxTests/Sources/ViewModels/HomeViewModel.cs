@@ -3,6 +3,7 @@ using ReactiveUI;
 using System.Reactive.Linq;
 using System.Diagnostics;
 using System.Threading;
+using System.Reactive.Concurrency;
 
 namespace RxTests
 {
@@ -11,8 +12,11 @@ namespace RxTests
 		const int TimerStartTime = 10;
 		const int TimerIntervalMillisec = 1000;
 
-		public HomeViewModel (Func<ICancellableAlert> alertFactory)
+		public HomeViewModel (Func<ICancellableAlert> alertFactory, IScheduler scheduler = null)
 		{
+			if (scheduler == null)
+				scheduler = RxApp.MainThreadScheduler;
+			
 			/*
 			var alert = alertFactory?.Invoke ();
 
@@ -24,7 +28,7 @@ namespace RxTests
 			var onOKPressed = Observable.FromEventPattern<EventHandler, EventArgs> (h => alert.OnOK += h, h => alert.OnOK -= h);
 			var onCancelPressed = Observable.FromEventPattern<EventHandler, EventArgs> (h => alert.OnCancel += h, h => alert.OnCancel -= h);
 
-			var loop = Observable.Interval (TimeSpan.FromMilliseconds (TimerIntervalMillisec)) // the actual timer
+			var loop = Observable.Interval (TimeSpan.FromMilliseconds (TimerIntervalMillisec), scheduler) // the actual timer
 						.Take (TimerStartTime + 1)             // +1 to show '0' for a second
 						.Select (p => TimerStartTime - p - 1)  // inverse countdown
 				.StartWith (Convert.ToInt64 (TimerStartTime))  // starts at 10, otherwise have to wait 1 sec before display
@@ -54,8 +58,7 @@ namespace RxTests
 			});
 			*/
 
-
-			Observable.Interval (TimeSpan.FromSeconds (1))
+			Observable.Interval (TimeSpan.FromSeconds (1), scheduler)
 				.Select(seconds => $"{seconds.ToString ()} seconds since subscribed")
 				.Subscribe (Debug.WriteLine);
 		}
