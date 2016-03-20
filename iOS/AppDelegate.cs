@@ -29,7 +29,7 @@ namespace RxTests.iOS
 
 	class IOSApp : App
 	{
-		protected override ICancellableAlert GetNewAlert(){
+		protected override ICancellableAlert CreateAlert(){
 			//return new CancellableUIAlertView ();
 			return new CancellableUIAlertController ();
 		}

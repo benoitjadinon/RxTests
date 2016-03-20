@@ -1,22 +1,8 @@
-﻿using System;
-
-using System.Diagnostics;
+﻿
+using ReactiveUI;
 using RxTests;
 using Xamarin.Forms;
-using Trash.Service.Namur;
-using System.Reactive;
-using System.Reactive.Linq;
-using System.Collections.Generic;
-using Trash.Model;
-using System.Threading.Tasks;
-using Refit;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System.Net.Http;
-using System.Globalization;
-using System.Text;
-using System.Reactive.Concurrency;
-using ReactiveUI;
+using Splat;
 
 namespace RxTests
 {
@@ -24,33 +10,22 @@ namespace RxTests
 	{
 		public App ()
 		{
-			Button butt;
+			//Locator.CurrentMutable.RegisterLazySingleton(() => new HomeModel(), typeof(IHomeModel));
 
-			MainPage = new ContentPage {
-				Content = new StackLayout {
-					VerticalOptions = LayoutOptions.Center,
-					Children = {
-						new Label {
-							HorizontalTextAlignment = TextAlignment.Center,
-							Text = "Reactive Tests"
-						},
-						(butt = new Button {
-							Text = "test",
-						})
-					}
-				}
-			};
+			//Locator.CurrentMutable.Register(() => new HomePage(), typeof(IViewFor<HomeViewModel>));
+			//MainPage = (Page)Locator.Current.GetService<IViewFor<HomeViewModel>>();
+
+			MainPage = new HomePage (() => CreateAlert());
 		}
 
 
-		protected virtual ICancellableAlert GetNewAlert ()
+		protected virtual ICancellableAlert CreateAlert ()
 		{
 			return new DebugCancellableAlert ();
 		}
 
 		protected override void OnStart ()
 		{
-			MainPage.BindingContext = new HomeViewModel (GetNewAlert, RxApp.MainThreadScheduler);
 		}
 
 		protected override void OnSleep ()
@@ -60,6 +35,7 @@ namespace RxTests
 		protected override void OnResume ()
 		{
 		}
+
 	}
 
 }

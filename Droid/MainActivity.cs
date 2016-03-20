@@ -8,6 +8,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Xamarin.Forms;
+using ReactiveUI;
 
 namespace RxTests.Droid
 {
@@ -18,7 +19,7 @@ namespace RxTests.Droid
 		{
 			base.OnCreate (bundle);
 
-			global::Xamarin.Forms.Forms.Init (this, bundle);
+			Forms.Init (this, bundle);
 
 			LoadApplication (new AndroidApp ());
 		}
@@ -26,7 +27,7 @@ namespace RxTests.Droid
 
 	class AndroidApp : App
 	{
-		protected override ICancellableAlert GetNewAlert ()
+		protected override ICancellableAlert CreateAlert ()
 		{
 			return new CancellableAlert (Forms.Context);
 		}

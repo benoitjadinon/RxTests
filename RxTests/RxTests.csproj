@@ -38,6 +38,9 @@
     <Compile Include="Sources\UI\ICancellableAlert.cs" />
     <Compile Include="Sources\Services\GitHubService.cs" />
     <Compile Include="Sources\UI\ObservableAlert.cs" />
+    <Compile Include="Sources\Pages\HomePage.cs" />
+    <Compile Include="Sources\Model\HomeModel.cs" />
+    <Compile Include="IHomeModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\refit.2.4.1\build\portable-net45+netcore45+wp8+wpa81+monoandroid+xamarin.ios10\refit.targets" Condition="Exists('..\packages\refit.2.4.1\build\portable-net45+netcore45+wp8+wpa81+monoandroid+xamarin.ios10\refit.targets')" />
@@ -48,6 +51,9 @@
     <Folder Include="Sources\ViewModels\" />
     <Folder Include="Sources\UI\" />
     <Folder Include="Sources\Services\" />
+    <Folder Include="Sources\Pages\" />
+    <Folder Include="Sources\Model\" />
+    <Folder Include="Sources\View\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Reactive.Interfaces">
@@ -117,14 +123,6 @@
     <ProjectReference Include="..\BlueMarin\BlueMarin.Rx\BlueMarin.Rx.csproj">
       <Project>{DE0E2591-F3C1-4E07-AE20-BD6713C4F1C5}</Project>
       <Name>BlueMarin.Rx</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TrashLib\TrashLib\TrashLib.csproj">
-      <Project>{75DB77AF-53BA-4998-99BD-D3E860A2CE78}</Project>
-      <Name>TrashLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TrashLib\TrashLib.Namur\TrashLib.Namur.csproj">
-      <Project>{F1EB8E9F-DEC1-4AC8-BF75-473D9CD511DD}</Project>
-      <Name>TrashLib.Namur</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
