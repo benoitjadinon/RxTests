@@ -15,7 +15,7 @@ namespace RxTests
 			//Locator.CurrentMutable.Register(() => new HomePage(), typeof(IViewFor<HomeViewModel>));
 			//MainPage = (Page)Locator.Current.GetService<IViewFor<HomeViewModel>>();
 
-			MainPage = new HomePage (() => CreateAlert());
+			MainPage = new HomePage (CreateAlert);
 		}
 
 

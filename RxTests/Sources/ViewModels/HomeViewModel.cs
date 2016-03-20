@@ -27,16 +27,14 @@ namespace RxTests
 				.SetMessage ("some message")
 				.Open ();
 
-			var onAlertResult = alert.AsObservable ();
-
-			var canGoNext = onAlertResult
+			var canGoNext = alert.AsObservable ()
 				.Merge (
 					Observable.Interval (TimeSpan.FromMilliseconds (TimerIntervalMillisec), scheduler) // the actual timer
 						.Select (p => TimerStartTime - p - 1)          // inversing countdown
 						.StartWith (Convert.ToInt64 (TimerStartTime))  // starting so it displays 10, otherwise nothing for 1 sec
 						.Do (sec => alert.DisplayTimeRemaining (sec.ToString ())) // updating alert
 						.Select (sec => sec <= 0)                      // returns true only at end of countdown
-						.WhereIsValue(true)                          // only goes forward if true
+						.Where (true)                                  // only goes forward if true
 						.Do (_ => alert.Close ())                      // close popup
 				)
 				.Take (1) // first onNext passes through then this will call onComplete

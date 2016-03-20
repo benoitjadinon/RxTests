@@ -7,18 +7,16 @@ using Splat;
 
 namespace RxTests
 {
-	public class HomePage : ContentPage
+	public class HomePage : ContentPage, IViewFor<HomeViewModel>
 	{
 		public Button butt;
 
 		#region IViewFor implementation
 
-		HomeViewModel viewModel;
-		public HomeViewModel ViewModel {
-			get {
-				return viewModel;
-			}
-			set { viewModel = value; }
+		public HomeViewModel ViewModel { get; set; }
+		object IViewFor.ViewModel {
+			get { return ViewModel; }
+			set { ViewModel = (HomeViewModel)value; }
 		}
 
 		#endregion
@@ -27,7 +25,7 @@ namespace RxTests
 		public HomePage (Func<ICancellableAlert> alertFactory)
 		{
 			//ViewModel = Locator.Current.GetService<HomeViewModel> ();
-			ViewModel = new HomeViewModel(alertFactory);
+			BindingContext = ViewModel = new HomeViewModel(alertFactory);
 
 			Content = new StackLayout {
 				VerticalOptions = LayoutOptions.Center,
@@ -48,8 +46,7 @@ namespace RxTests
 				refresButtonClickedObservable,
 				Observable.Interval (TimeSpan.FromMinutes (1))				
 			).Subscribe (_ => Refresh());
-			*/
-			/*
+
 			this.BindCommand (ViewModel, vm => vm.ButtonCommand, v => v.butt);
 
 			MainPage.BindingContext = 
