@@ -4,6 +4,7 @@ using System.Reactive.Linq;
 using System.Diagnostics;
 using System.Reactive.Concurrency;
 using GitHub;
+using BlueMarin.Rx;
 
 namespace RxTests
 {
@@ -35,7 +36,7 @@ namespace RxTests
 						.StartWith (Convert.ToInt64 (TimerStartTime))  // starting so it displays 10, otherwise nothing for 1 sec
 						.Do (sec => alert.DisplayTimeRemaining (sec.ToString ())) // updating alert
 						.Select (sec => sec <= 0)                      // returns true only at end of countdown
-						.Where (isEnded => isEnded)                    // only forwarding if true
+						.WhereIsValue(true)                          // only goes forward if true
 						.Do (_ => alert.Close ())                      // close popup
 				)
 				.Take (1) // first onNext passes through then this will call onComplete
