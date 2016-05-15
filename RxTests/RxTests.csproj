@@ -124,5 +124,13 @@
       <Project>{DE0E2591-F3C1-4E07-AE20-BD6713C4F1C5}</Project>
       <Name>BlueMarin.Rx</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Acr.DeviceInfo\src\Acr.DeviceInfo.Interface\Acr.DeviceInfo.Interface.csproj">
+      <Project>{48D0E994-7454-44ED-952B-9E9FAFA5101F}</Project>
+      <Name>Acr.DeviceInfo.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Acr.DeviceInfo\src\Acr.DeviceInfo\Acr.DeviceInfo.csproj">
+      <Project>{0AE46DB6-F7C4-40E2-A8DF-1E22D9EB2BB5}</Project>
+      <Name>Acr.DeviceInfo</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

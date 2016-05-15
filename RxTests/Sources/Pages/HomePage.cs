@@ -10,6 +10,7 @@ using GitHub;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using BlueMarin.Rx;
 
 namespace RxTests
 {
@@ -35,6 +36,8 @@ namespace RxTests
 		{
 			//ViewModel = Locator.Current.GetService<HomeViewModel> ();
 			BindingContext = ViewModel = new HomeViewModel(alertFactory);
+
+			var obs = Acr.DeviceInfo.DeviceInfo.Connectivity.OnPropertyChanges(d => d.IsInternetAvailable);
 
 			Content = new StackLayout {
 				VerticalOptions = LayoutOptions.Center,

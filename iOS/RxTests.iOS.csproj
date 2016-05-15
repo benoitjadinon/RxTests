@@ -141,6 +141,14 @@
       <Project>{B7A248AF-C787-4F9D-BFAD-DF96C64F4E50}</Project>
       <Name>BlueMarin.PCL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Acr.DeviceInfo\src\Acr.DeviceInfo.iOS\Acr.DeviceInfo.iOS.csproj">
+      <Project>{8786FFFE-E5DC-4147-B04C-C68F3F01A024}</Project>
+      <Name>Acr.DeviceInfo.iOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Acr.DeviceInfo\src\Acr.DeviceInfo.Interface\Acr.DeviceInfo.Interface.csproj">
+      <Project>{48D0E994-7454-44ED-952B-9E9FAFA5101F}</Project>
+      <Name>Acr.DeviceInfo.Interface</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
@@ -159,6 +167,7 @@
     <Compile Include="Sources\CancellableUIAlertView.cs" />
     <Compile Include="Sources\CancellableUIAlertController.cs" />
   </ItemGroup>
+  <Import Project="..\Acr.DeviceInfo\src\Acr.DeviceInfo.Shared\Acr.DeviceInfo.Shared.projitems" Label="Shared" Condition="Exists('..\Acr.DeviceInfo\src\Acr.DeviceInfo.Shared\Acr.DeviceInfo.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\refit.2.4.1\build\portable-net45+netcore45+wp8+wpa81+monoandroid+xamarin.ios10\refit.targets" Condition="Exists('..\packages\refit.2.4.1\build\portable-net45+netcore45+wp8+wpa81+monoandroid+xamarin.ios10\refit.targets')" />
   <Import Project="..\packages\Xamarin.Forms.2.1.0.6524\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.1.0.6524\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />

@@ -1,3 +1,6 @@
 [submodule "BlueMarin"]
 	path = BlueMarin
 	url = git@github.com:benoitjadinon/BlueMarin.git
+[submodule "Acr.DeviceInfo"]
+	path = Acr.DeviceInfo
+	url = git@github.com:benoitjadinon/deviceinfo.git
