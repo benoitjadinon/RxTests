@@ -9,6 +9,7 @@ using Android.Widget;
 using Android.OS;
 using Xamarin.Forms;
 using ReactiveUI;
+using System.Threading;
 
 namespace RxTests.Droid
 {

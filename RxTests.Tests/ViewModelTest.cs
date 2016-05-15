@@ -2,6 +2,7 @@
 using Microsoft.Reactive.Testing;
 using System;
 using System.Reactive;
+using System.Reactive.Linq;
 using ReactiveUI.Testing;
 
 // only works in Visual Studio

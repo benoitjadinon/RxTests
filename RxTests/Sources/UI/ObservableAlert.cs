@@ -5,14 +5,16 @@ namespace RxTests
 {
 	public abstract class ObservableAlert : ICancellableAlert
 	{
-		public IObservable<bool> AsObservable() {
-			return Observable.FromEventPattern<EventHandler<bool>, bool> (h => OnResult += h, h => OnResult -= h)
-				.Select (p => p.EventArgs)
-				.Take(1)
-				;
-		}
-
 		#region ICancellableAlert implementation
+
+		public IObservable<bool> WhenResult {
+			get{
+				return Observable.FromEventPattern<EventHandler<bool>, bool> (h => OnResult += h, h => OnResult -= h)
+					.Select (p => p.EventArgs)
+					.Take(1)
+					;
+			}
+		}
 
 		public virtual event EventHandler<bool> OnResult;
 

@@ -30,50 +30,50 @@ namespace RxTests.iOS
 
 		#region ICancellableAlert implementation
 
-		public ICancellableAlert Open ()
+		public override ICancellableAlert Open ()
 		{
 			alert.Show ();
 			return this;
 		}
 
-		public ICancellableAlert Close ()
+		public override ICancellableAlert Close ()
 		{
 			alert.DismissWithClickedButtonIndex (-1, false);
 			return this;
 		}
 
-		public void Dispose ()
+		public override void Dispose ()
 		{
 			Close ();
 		}
 
-		public ICancellableAlert SetMessage (string txt)
+		public override ICancellableAlert SetMessage (string txt)
 		{
 			alert.Message = txt;
 			return this;
 		}
 
-		public ICancellableAlert SetTitle (string txt)
+		public override ICancellableAlert SetTitle (string txt)
 		{
 			//TODO
 			alert.Title = txt;
 			return this;
 		}
 
-		public ICancellableAlert SetCancelTitle (string title = "Cancel")
+		public override ICancellableAlert SetCancelTitle (string title = "Cancel")
 		{
 			//TODO
 			alert.AddButton (title);
 			return this;
 		}
 
-		public ICancellableAlert SetOKTitle (string title = "OK")
+		public override ICancellableAlert SetOKTitle (string title = "OK")
 		{
 			alert.AddButton (title);
 			return this;
 		}
 
-		public ICancellableAlert DisplayTimeRemaining (string time)
+		public override ICancellableAlert DisplayTimeRemaining (string time)
 		{
 			SetOKTitle (string.Format ("OK ({0})", time));
 			return this;

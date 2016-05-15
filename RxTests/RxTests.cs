@@ -10,7 +10,7 @@ namespace RxTests
 	{
 		public App ()
 		{
-			//Locator.CurrentMutable.RegisterLazySingleton(() => new HomeModel(), typeof(IHomeModel));
+			Locator.CurrentMutable.RegisterLazySingleton(() => new HomeModel(), typeof(IHomeModel));
 
 			//Locator.CurrentMutable.Register(() => new HomePage(), typeof(IViewFor<HomeViewModel>));
 			//MainPage = (Page)Locator.Current.GetService<IViewFor<HomeViewModel>>();

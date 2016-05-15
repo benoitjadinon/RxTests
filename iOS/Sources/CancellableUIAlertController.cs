@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace RxTests.iOS
 {
-	public class CancellableUIAlertController : ICancellableAlert
+	public class CancellableUIAlertController : ObservableAlert
 	{
 		UIAlertController alert;
 
@@ -25,7 +25,9 @@ namespace RxTests.iOS
 
 		#region ICancellableAlert implementation
 
-		public ICancellableAlert Open ()
+		public override event EventHandler<bool> OnResult;
+
+		public override ICancellableAlert Open ()
 		{
 			//TODO: pass current controller instead somehow
 			var window= UIApplication.SharedApplication.KeyWindow;
@@ -38,7 +40,7 @@ namespace RxTests.iOS
 			return this;
 		}
 
-		public ICancellableAlert Close ()
+		public override ICancellableAlert Close ()
 		{
 			if (alert != null && !alert.IsBeingDismissed)
 				alert.DismissViewController(animated, null);
@@ -46,34 +48,34 @@ namespace RxTests.iOS
 			return this;
 		}
 
-		public ICancellableAlert SetMessage (string txt)
+		public override ICancellableAlert SetMessage (string txt)
 		{
 			alert.Message = txt;
 			return this;
 		}
 
-		public ICancellableAlert SetTitle (string txt)
+		public override ICancellableAlert SetTitle (string txt)
 		{
 			title = txt;
 			alert.Title = txt;
 			return this;
 		}
 
-		public ICancellableAlert SetCancelTitle (string title = "Cancel")
+		public override ICancellableAlert SetCancelTitle (string title = "Cancel")
 		{
 			//impossible :(
 			//alert.Actions.ToList ().First (a => a.Style == UIAlertActionStyle.Cancel).Title = title;
 			return this;
 		}
 
-		public ICancellableAlert SetOKTitle (string title = "OK")
+		public override ICancellableAlert SetOKTitle (string title = "OK")
 		{
 			//impossible :(
 			//alert.Actions.ToList ().First (a => a.Style == UIAlertActionStyle.Default).Title = title;
 			return this;
 		}
 
-		public ICancellableAlert DisplayTimeRemaining (string time)
+		public override ICancellableAlert DisplayTimeRemaining (string time)
 		{
 			var tit = string.Format(title + " ({0})", time);
 			alert.Title = tit;
@@ -84,9 +86,10 @@ namespace RxTests.iOS
 
 		#region IDisposable implementation
 
-		public void Dispose ()
+		public override void Dispose ()
 		{
 			Close ();
+			base.Dispose ();
 		}
 
 		#endregion

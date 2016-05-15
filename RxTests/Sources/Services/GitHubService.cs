@@ -66,7 +66,7 @@ namespace GitHub
 
 		public override string ToString ()
 		{
-			return string.Format ("[Repo: Id={0}, Private={1}, Fork={2}, Name={3}, FullName={4}, Url={5}, HtmlUrl={6}]", Id, Private, Fork, Name, FullName, Url, HtmlUrl);
+			return string.Format ("[Repo: Name={3}, Private={1}, Fork={2}, Id={0}, FullName={4}, Url={5}, HtmlUrl={6}]", Id, Private, Fork, Name, FullName, Url, HtmlUrl);
 		}
 	}
 

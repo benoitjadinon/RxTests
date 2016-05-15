@@ -6,8 +6,6 @@ namespace RxTests
 {
 	public interface ICancellableAlert : IDisposable
 	{
-		IObservable<bool> AsObservable();
-
 		ICancellableAlert Open();
 		ICancellableAlert Close();
 		ICancellableAlert SetMessage (string txt);
@@ -17,6 +15,7 @@ namespace RxTests
 		ICancellableAlert DisplayTimeRemaining (string time);
 
 		event EventHandler<bool> OnResult;
+		IObservable<bool> WhenResult { get; }
 	}
 }
 

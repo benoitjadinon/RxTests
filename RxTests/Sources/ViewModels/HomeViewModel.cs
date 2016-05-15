@@ -3,51 +3,54 @@ using ReactiveUI;
 using System.Reactive.Linq;
 using System.Diagnostics;
 using System.Reactive.Concurrency;
-using GitHub;
-using BlueMarin.Rx;
 
 namespace RxTests
-{
+{	
 	public class HomeViewModel : ReactiveObject
 	{
 		const int TimerStartTime = 10;
 		const int TimerIntervalMillisec = 1000;
 
-		IHomeModel model;
+		public ReactiveCommand<System.Reactive.Unit> OpenPopupCommand { get; protected set; }
 
 		public HomeViewModel (Func<ICancellableAlert> alertFactory, IScheduler scheduler = null, IHomeModel mod = null)
 		{
-			//model = Locator.Current.GetService<IHomeModel> ();
-			
+			/*
 			if (scheduler == null)
 				scheduler = RxApp.MainThreadScheduler;
 			
 			var alert = alertFactory ()
 				.SetTitle ("some title")
 				.SetMessage ("some message")
-				.Open ();
+				;
 
-			var canGoNext = alert.AsObservable ()
+			var automaticGoAlert = alert.WhenResult
 				.Merge (
 					Observable.Interval (TimeSpan.FromMilliseconds (TimerIntervalMillisec), scheduler) // the actual timer
 						.Select (p => TimerStartTime - p - 1)          // inversing countdown
 						.StartWith (Convert.ToInt64 (TimerStartTime))  // starting so it displays 10, otherwise nothing for 1 sec
 						.Do (sec => alert.DisplayTimeRemaining (sec.ToString ())) // updating alert
 						.Select (sec => sec <= 0)                      // returns true only at end of countdown
-						.Where (true)                                  // only goes forward if true
+						.Where (b => b)                                  // only goes forward if true
 						.Do (_ => alert.Close ())                      // close popup
 				)
 				.Take (1) // first onNext passes through then this will call onComplete
 				;
-			canGoNext.Subscribe (
+
+			OpenPopupCommand = ReactiveCommand.CreateAsyncTask(async _ => { 
+				alert.Open(); 
+				automaticGoAlert.Subscribe (
 					onNext: alertResult => {
 						if (alertResult)
-							Debug.WriteLine ("OK");
+							alertFactory ().SetMessage ("OK").Open ();
 						else
-							Debug.WriteLine ("canceled");
+							alertFactory ().SetMessage ("Cancelled").Open ();
 					}
 				);
+			}, RxApp.MainThreadScheduler);
+			*/
 
+			/*
 			var github = new GitHubApi ();
 			var subscription = github.GetUserObservable ("benoitjadinon")
 				.SubscribeOn (RxApp.TaskpoolScheduler)
@@ -62,10 +65,33 @@ namespace RxTests
 					onNext: repos => Debug.WriteLine (repos[0]), 
 					onError: Debug.WriteLine
 				);
+			*/
 
 			//var result = await github.GetUserObservable("benoitjadinon")
 			//	.Timeout(TimeSpan.FromSeconds(10));
+
 		}
 	}
+
+	/*
+	class MainWindowViewModel : ReactiveObject
+	{
+		private string passwordText;
+		public string PasswordText {
+			get { return passwordText; }
+			set { this.RaiseAndSetIfChanged(ref passwordText, value); }
+		}
+		public ReactiveCommand LoginCommand { get; private set; }
+
+		public MainWindowViewModel()
+		{
+			var canLoginObservable = this.WhenAny(vm => vm.PasswordText, 
+				s => !string.IsNullOrWhiteSpace(s.Value));
+
+			LoginCommand = new ReactiveCommand(canLoginObservable);
+			LoginCommand.Subscribe(p => MessageBox.Show("I was clicked"));
+		}
+	}
+	*/
 }
 
